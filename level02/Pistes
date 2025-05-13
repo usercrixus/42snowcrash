@@ -1,0 +1,15 @@
+Fichier .pcap present, recherche -> c'est interpretable par Wireshark
+
+utilisation de SCP (scp -P 4243 level02@localhost:/home/user/level02/level02.pcap /home/gmorel/goinfre) pour copier le fichier de la VM a l'hote. 
+
+Fichier ouvert dans wireshark, analyse...
+
+je restitue la conversation avec analyze -> follow -> TCP stream
+
+on voit une tentative de connection avec ce mot de passe : ft_wandr...NDRel.L0L
+
+malheureusement, ils ne fonctionnent pas
+
+je cherche et je vois que les . dans le mot de passe sont des characteres non imprimables 7f, qui est delete, donc a chaque point je delete le caractere avant ca donne : ft_waNDReL0L
+
+CA MARCHE !!!
