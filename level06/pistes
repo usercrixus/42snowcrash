@@ -3,3 +3,40 @@ Deux fichiers (un .php et un executable), j'analyse les deux.
 J'ai l'impression que l'executable doit prendre le fichier .php en argument.
 
 Analyse du fichier .php, j'ai acces a son contenu.
+
+j'ai compris globalement ce que faisaient les scripts, j'ai analyse les permissions et l'executable a un SETUID, cad qu'il s'execute avec les permissions de flag06, potentiellement un getflag a caler dedans...
+
+
+L'executable ne doit pas prendre le fichier .php en argument ! Son script execute ce .php avec les permissions de flag06.
+
+dans le code .php cette ligne : "$a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);" fais que le deuxieme argument (qui appelle la fonction y) va etre execute apres transformation, c'est du au \e juste avant, je vais tenter de mettre du code dedans pour voir.
+
+j'ai tente d'envoye un fichier avec [x system('ls /')], pour qu'il devienne system('ls /') et qu'il s'execute, je pense qu'il s'est execute mais je ne vois pas le resultat du ls puisque le programme renvoi juste le contenu du fichier apres modification, je vais tenter de faire ecrire dans un fichier plutot.
+
+il ne s'execute pas ca ne marche pas, enfaite le /e sert a appeler la fonction y, je vais voir s'il y a une faille dedans...
+
+Pas de faille dans la fonction y, elle sert juste a modifier des chaines de charactere.
+
+Le script .php renvoi la chaine modifiee, l'executable qui l'appelle utilise execve (que j'ai vu avec strings), je vais voir s'il a une faille.
+
+Je ne trouve pas grand chose, je vais essayer d'utiliser Ghidra pour que ce soit plus precis.
+
+utilisation de scp pour mettre les fichiers sur mon bureau (hote).
+
+j'arrive a avoir une visibilite sur le main.
+Pas de faille apparente... un simple execve qui execute le script .php avec un fichier en argument.
+
+je retourne voir dans le php si je trouve quelque chose.
+
+ok je pense avoir un truc !! le /e execute la fonction y, mais si dans le contenu de ce que j'envoi a l'interieur je ferme le guillemet et la parenthese, je peux continuer en faisant une nouvelle commande apres un ;. je vais tester
+Ca ne marche pas
+
+Je vais essayer de mettre dans y en argument une fonction qui s'execute et qui lui envoi sa valeur de retour.
+
+j'essaie de faire une variable dynamique
+${exec(getflag)} pourrait marcher.
+
+ca ne marche pas
+
+{${exec(getflag)}}
+CA MARCHE !! (je l'ai adapte avec [x ...])

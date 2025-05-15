@@ -1,0 +1,3 @@
+Toujours pareil, l'executable level08 a des autorisation SUID qui s'execute avec les droits de flag08, je n'ai pas acces au token mais flag08 y a acces, il faut que j'exploite le binaire pour afficher le token je suppose.
+
+je vais l'analyser avec strings, puis avec Ghidra si necessaire.
