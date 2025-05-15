@@ -1,0 +1,13 @@
+fichier en perl, quand je l'execute je ne comprends pas ce que ca fais, j'analyse le code...
+
+ls -l, je vois que les permissions du fichier sont comme sur l'exo d'avant ! Il faut exploiter le code pour executer getflag avec les droits de flag04 je pense.
+
+Ok donc le programme est un CGI  qui execute la commande x passee dans l'url, il faut que je mette en place un serveur qui va envoyer des requetes au CGI, et je pourrais lui envoyer "getflag"...
+
+Faire un serveur web me semble un peu prise de tete, je tente de simuler une requete http.
+
+Je n'ai pas reussi, en revanche j'ai vu en commentaire en haut le port 4747 j'ai donc fais ss -tuln pour voir les ports ouvert et le 4747 est ouvert, j'ai donc tente une requete http "curl http://localhost:4747/level04.pl?x=lala" et ca m'affiche bien lala, je pense qu'il y a deja un serveur mis en place.
+
+Je vais tenter de passer dans la valeur de x le getflag pour qu'il me le donne. Le probleme est que quand je lui passe ls par exemple ca affiche ls et ca ne l'execute pas.
+
+J'ai trouve un moyen !! en mettant $(ls) ca va afficher le resultat de ls, et non ls directement, plus qu'a tester avec getflag : curl "http://localhost:4747/level04.pl?x=$(getflag)"  il me dit illegal charactere, il faut juste rajouter \ avant $(getflag) pour echapper car c'est un caractere special et c'est bon !!

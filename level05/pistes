@@ -1,0 +1,19 @@
+Pas de fichiers dans le dossier level05... je vais tenter de faire des finds etc.
+
+en faisant find / -user flag05, je vois qu'il possede un fichier "/rofs/usr/sbin/openarenaserver", je vais aller voir...
+
+-rwxr-x--- 1 flag05 flag05 94 Mar  5  2016 openarenaserver, voila les autorisations, je n'ai pas les permissions malheureusement.
+
+il y a un autre fichier du meme nom dans /usr/sbin/openarenaserver, il a des permissions differentes -rwxr-x---+ 1 flag05 flag05 94 Mar  5  2016 openarenaserver...
+
+j'ai acces au fichier !! en tout cas je peux lire son contenu
+
+a l'execution, il execute tous les fichiers dans /opt/openarenaserver/.
+
+j'ai le droit d'ecrire dans ce dossier. Des permissions supplementaire ont ete rajoutee, avec le "+" supplementaire du ls -l, je peux y acceder avec getfacl /opt/openarenaserver/, le level05 y est ajoute
+
+Ce dossier est root donc je dois pouvoir executer des scripts interessants, je cree un script .sh dans /opt/openarenaserver/ et je vois ce que ca donne.
+
+Je ne peux pas executer le programme, pourtant /opt/openarenaserver est vide, le programme s'execute peut etre automatiquement, je vais tenter de mettre le resultat dans /tmp/. Le script a disparu environ 2 secondes apres que je l'ai créé, le programme c'est peut etre lancé.
+
+PARFAIT ! le flag est dans le fichier créé. (le script était juste "getflag > /tmp/flag05")

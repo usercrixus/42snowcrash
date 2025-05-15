@@ -1,0 +1,5 @@
+Deux fichiers (un .php et un executable), j'analyse les deux.
+
+J'ai l'impression que l'executable doit prendre le fichier .php en argument.
+
+Analyse du fichier .php, j'ai acces a son contenu.
