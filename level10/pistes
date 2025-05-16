@@ -1,0 +1,32 @@
+Comme avant, un executable et un fichier token.
+
+je ne peux pas lire le fichier token cette fois ci, mais l'executable a des droits setuid, qui permette de l'executer avec flag10
+
+analyse de l'executable...
+
+j'utilise une technique differente, je recupere le code en assembleur avec gdb, puis j'utilise un convertisseur en ligne pour me le montrer en C.
+
+En gros le code fais un access argv[1], en lisant la doc, je vois que access ignore le setuid et prend en compte les droits reels de l'utilisateurs appelant, il faut que je detourne ca.
+
+analyse plus precise avec Ghidra...
+
+ok le script envoi les donnees du fichier au port 6969, j'ai donc fait un petit serveur python qui recoit bien les paquets et qui les affiche, le probleme est que le access me bloque toujours, je vais relire la doc.
+
+il y a cette ligne dans la doc :        "Attention :  Utiliser  access()  pour  vérifier  si un utilisateur a le
+       droit, par exemple, d’ouvrir un fichier  avant  d’effectuer  réellement
+       l’ouverture  avec  open(2),  risque  de  créer  un trou de sécurité. En
+       effet, l’utilisateur peut exploiter le petit intervalle de temps  entre
+       la vérification et l’accès pour modifier le fichier. Pour cette raison,
+       l’utilisation de cet appel système devrait être évité."
+
+je vais essayer d'exploiter le truc.
+
+Je vais faire un script qui doit s'executer entre le access et le open, en gros, je dois creer un fichier accessible pour que access fonctionne, puis juste avant que le open s'execute, je supprime le fichier et je cree un fichier du meme nom qui est en fait un lien symbolique vers le token.
+
+je lance le programme en boucle avec while true; do ./level10 /tmp/fake 127.0.0.1; done
+
+et pendant ce temps je vais executer un script en C qui unlink /tmp/fake puis qui le cree en lien symbolique de token.
+
+OUIII apres 3 essais j'ai enfin recu le token, pour la mise en place j'ai fais un serveur python qui recoit les infos, une boucle infinie pour executer le script donne pour qu'il envoie en boucle, et un script en C qui supprime le fichier vise et qui le recree en tant que link du token.
+
+il a fallut plusieurs essai car il a fallu que je lance le script entre access() et open() dans le script qui tournait en boucle, ce qui etait un peu du hasard.
