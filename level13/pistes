@@ -1,0 +1,11 @@
+Encore un fichier qui s'execute avec les droits de flag13.
+
+Phrase etrange lorsque j'execute, "UID 2013 started us but we we expect 4242" peut etre que je dois lancer le programme avec un UID different donc avec d'autres droits.
+
+j'ai analyse avec gcb, le programme semble appeler une fonction si l'UID est correct donc 4242.
+
+analyse de la fonctions appelee (ft_des)
+
+J'ai reussi a voir mon UID (avec id -u), et en faisant cat etc/passwd je vois les UID de tous le monde, or aucun utilisateur a 4242...
+
+Je pensais pas que c'etait possible au debut, mais avec gdb j'ai mis un break sur getuid, j'ai vu sa valeur de retour en faisant info register (eax: 2013) et je l'ai modifie en faisant set $eax=4242, le programme s'est ensuite execute avec le bon UID et m'a donne le flag !

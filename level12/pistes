@@ -1,3 +1,42 @@
 On a un fichier .pl dans le dossier, on voit avec ls -l qu'il s'execute avec les droits de flag12
 
 Je peux lire le script, j'essaie de comprendre.
+
+Le programme toune et recoit des requetes http, avec des arguement x et y, il cherche ensuite des occurences dans /tmp/xd et renvoi un output . ou .. en fonction
+
+utilisation de la fonction egrep, qui peut etre vulerable, je cherche en ce sens...
+
+La chaine injectable pour la commande est mise en majuscule et les espaces sont supprimes au prealable, ce qui rend difficile l'injection.
+
+Il y a le probleme des majuscules toujours, je vais essayer de trouver une solution.
+
+Possibilite de creer un lien symbolique vers la commande getflag, juste il faut que dans le chemin il n'y ait aucune majuscule.
+
+Ok j'ai mis GETFLAG dans /tmp/, mais je peux l'appeler en faisant ca /*/GETFLAG, donc aucune minuscule.
+
+curl -X POST -d "x=.*;\x20/*/GETFLAG\x20>\x20&y=BONJOUR" http://localhost:4646 j'ai tente une commande comme ca mais ca marche pas.
+
+ca doit etre a cause des espaces qui sont supprimes.
+
+curl -X POST -d "x=.*;\x20/*/GETFLAG\x20>\x20&y=BONJOUR" http://localhost:4646
+j'ai tente ca en mettant \x20 pour representer les espaces mais ca ne marche pas.
+
+ca ne fonctionne pas.
+
+Comme dans un exo precedent je vais essayer de faire un file, et de l'executer, si le egrep prend sa sortie en argument je peux lui mettre n'importe quoi puisqu'il sera execute.
+
+pour cela je fais $(file)
+
+je fais un fichier /tmp/execute qui contient "echo $(getflag) > /tmp/res"
+
+il faut maintenant que le egrep l'execute
+
+egrep l'a bien execute mais avec mes droits...
+
+curl http://localhost:4646?x='`/*/EXPLOIT`' j'ai change un peu la requete
+
+les `` permettent d'executer la commande et de renvoyer le resultat
+
+/tmp/EXPLOIT contient getflag > tmp/flag12
+
+ca a marche !!!

@@ -1,0 +1,23 @@
+aucun fichier dans le dossier, je vais chercher si des fichiers lui appartiennent avec find
+
+Rien du tout meme avec find.
+
+Peut etre qu'il faut etudier le getflag avec gdb comme on a fait avant
+
+analyse de getflag avec gcb, disas main etc...
+
+Le message affiche (qui affiche le flag) depend de l'UID de l'utilisateur qui a lance le programme, je vais faire comme avant en mettant l'UID de flag14.
+
+Avec gdb je n'arrive pas a debugger, il y a une verification anti debug j'ai donc ce message "You should not reverse this", je vais essayer de contourner.
+
+Je peux apparement bloquer avec gdb l'appel a ptrace (qui bloque), quand je vois call 0x... qui correspond a l'appel a ptrace, je remplace par "NOPs (0x90)"
+
+je fais un disas main, je trouve l'instruction call qui appelle ptrace, et avec des set, je l'annule, une instruction call prend 5 octets donc je remplace les 5 octets suivant l'instruction par 0x90
+
+ok j'ai reussi a supprimer le call de ptrace, il faut faire b main, puis run, puis modifier avec set les 5 octets de l'instruction call en les remplacant par 0x90
+
+maintenant il faut que je remplace le uid par celui de flag14
+
+j'ai fait comme l'exo precedent, break sur getuid, step une fois pour avancer un peu et des que je vois la valeur de retour eax = UID actuel, je remplace par 3014 (celui de flag14) et ca me donne le token quand je fais continue.
+
+CA MARCHE
