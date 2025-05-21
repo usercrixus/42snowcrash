@@ -1,7 +1,0 @@
-Beaucoup de recherches de commandes avec cat pour voir les fichiers
-
-Utilisations de find
-
-Recherche "find / -user flag00" pour trouver les fichiers/dossiers crees par flag00, fichier john trouve, juste a le cat pour avoir le mot de passe
-
-mot de passe ne fonctionne pas, tentative de le dechiffrer, algo de cesar trouve, tres connu avec simplement du decalage de lettre, ce a permis de trouver le mot de passe grace a un outil en ligne c'est : nottoohardhere

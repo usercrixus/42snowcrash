@@ -1,5 +1,0 @@
-On a checke les utilisateurs presents avec cat /etc/passwd, on a vu que flag01 sortait, du lot, en effet son mdp semblait etre en clair, or ca n'a pas fonctionne.
-
-Tentative de decryptage via plusieurs outils en ligne...
-
-Decouverte d'un outil John the Ripper, installation et configuration sur github. Je lui donne le mot de passe et il me ressort "abcdefg", et ca fonctionne !!!!!!!
