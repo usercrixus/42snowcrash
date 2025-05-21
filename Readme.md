@@ -58,7 +58,7 @@ No additional dependencies are required.
 
 ## Usage
 
-    $ python3 decrypt_flags.py
+    $ python3 hack.py
     Enter your UID (decimal or 0xHEX): 0xBBE
     # => Prints the decrypted flag for UID 0xBBE
 
@@ -66,5 +66,5 @@ No additional dependencies are required.
 2. Ensure you have Python 3 installed:
     python3 --version
 3. Run the script:
-    python3 decrypt_flags.py
+    python3 hack.py
 4. Enter your UID when prompted. The script accepts both decimal (e.g. `3006`) and hexadecimal (e.g. `0xBBE`) formats.
